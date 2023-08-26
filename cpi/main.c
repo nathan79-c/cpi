@@ -20,7 +20,23 @@ int main(int argc, char *argv[]){
     // chemin vers notre depot de packages
     char packagesDir[10] = "/packages";
     strcat(pathPackage, packagesDir);
+    // dossier package
+    DIR *packages;
+    struct dirent *ent;
+    struct stat statbuf;
 
-    printf("chemin : %s", pathPackage);
+    packages = opendir(pathPackage);
+    if(packages == NULL){
+        return 3;
+    }
+
+    while((ent = readdir(packages))!= NULL){
+        stat(ent->d_name, &statbuf);
+        printf("%s \n", ent->d_name);
+    }
+
+    closedir(packages);
+
+
     return 0;
 }
